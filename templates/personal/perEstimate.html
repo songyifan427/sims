@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/css/branch.css">
+    <script src="../../static/js/branch.js"></script>
+    <title>查看个人信息</title>
+</head>
+<body>
+    <div class="con">
+        <table class="tab table table-bordered table-hover">
+            <tr>
+                <th style="width: 90px">序号</th>
+                <th style="width: 90px">时间</th>
+                <th style="width: 90px">评估结果</th>
+            </tr>
+            <tbody>
+            {% if data %}
+            {% for item in data %}
+            <tr>
+                <td style="width: 90px">{{ loop.index }}</td>
+                <td style="width: 90px">{{ item.create_time }}</td>
+                <td style="width: 180px">{{ item.content }}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="3">未搜索到结果</td>
+            </tr>
+            {% endif %}
+            </tbody>
+        </table>
+        {% if data %}
+        {{ pag.strs|safe }}
+        {% endif %}
+    </div>
+</body>
+<script>
+    search("#btn","#type","#inputer","/personal/perEstimate");
+</script>
+</html>

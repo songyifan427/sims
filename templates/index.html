@@ -21,70 +21,121 @@
             </div>
             <div class="navs darkerSkin">
                 <div class="lmenu">
-                    <!--作业管理-->
+                    <!--综合查询-->
                     <ul>
                         <li aid="1">
-                            <span><i class="iconfont icon-wenjian"></i>&nbsp作业管理</span>
+                            <span><i class="iconfont icon-jiaoshi1"></i>&nbsp综合查询</span>
                             <ul style="display: none;">
-                                <a href="/homeworkSet/homework11" target="screen"><li aid="11">查看作业</li></a>
-                                <a href="/homeworkSet/addHomework12" target="screen"><li aid="12">上交作业</li></a>
-                                <a href="/homeworkSet/updHomework13" target="screen"><li aid="13">修改本用户作业</li></a>
+                                <a href="/personal/info" target="screen"><li aid="1-1">查看个人信息</li></a>
+                                {% if role == "student" %}
+                                <a href="" target="screen"><li aid="1-2">查看考试成绩</li></a>
+                                {% endif %}
+                                {% if role == "teacher" %}
+                                <a href="/personal/estimate" target="screen"><li aid="1-3">查看教学评估</li></a>
+                                {% endif %}
                             </ul>
                         </li>
                     </ul>
-                    <!--学生管理-->
+
+                    <!--课表管理-->
                     <ul>
                         <li aid="2">
-                            <span><i class="iconfont icon-jiaoshi1"></i>&nbsp学生管理</span>
+                            <span><i class="iconfont icon-shijuanindex"></i>
+                                {% if role in ["teacher","student"] %}
+                                &nbsp课表查询
+                                {% endif %}
+                                {% if role == "admin" %}
+                                &nbsp课表管理
+                                {% endif %}
+                            </span>
                             <ul style="display: none;">
-                                <a href="/studentSet/stuinfo21" target="screen"><li aid="21">查看学生信息</li></a>
-                                <a href="/studentSet/setStuinfo22" target="screen"><li aid="22">修改学生信息</li></a>
+                                <a href="" target="screen"><li aid="2-1">查看班级课表</li></a>
+                                {% if role in ["teacher","admin"] %}
+                                <a href="" target="screen"><li aid="2-2">查看个人课表</li></a>
+                                {% endif %}
+                                {% if role == "admin" %}
+                                <a href="" target="screen"><li aid="2-3">管理课表</li></a>
+                                <a href="" target="screen"><li aid="2-4">新建课表</li></a>
+                                {% endif %}
                             </ul>
                         </li>
                     </ul>
-                    <!--教师管理-->
+
+                    {% if role in ["admin","teacher"] %}
+                    <!--信息管理-->
                     <ul>
                         <li aid="3">
-                            <span><i class="iconfont icon-jiaoshi"></i>&nbsp教师管理</span>
+                            <span><i class="iconfont icon-wenjian"></i>
+                                {% if role == "teacher" %}
+                                &nbsp信息查询
+                                {% endif %}
+                                {% if role == "admin" %}
+                                &nbsp信息管理
+                                {% endif %}
+                            </span>
                             <ul style="display: none;">
-                                <a href="/teacherSet/teainfo31" target="screen"><li aid="31">查看教师信息</li></a>
-                                <a href="teacherSet/addpaper32" target="screen"><li aid="32">扩充题库</li></a>
-                                <a href="/teacherSet/setTeainfo33" target="screen"><li aid="33">修改教师信息</li></a>
+                                {% if role == "teacher" %}
+                                <a href="" target="screen"><li aid="3-1">个人信息查询</li></a>
+                                <a href="" target="screen"><li aid="3-2">班级信息查询</li></a>
+                                <a href="" target="screen"><li aid="3-3">考试成绩查询</li></a>
+                                <a href="" target="screen"><li aid="3-4">教学评估查询</li></a>
+                                {% endif %}
+                                {% if role == "admin" %}
+                                <a href="" target="screen"><li aid="3-1">个人信息管理</li></a>
+                                <a href="" target="screen"><li aid="3-2">班级信息管理</li></a>
+                                <a href="" target="screen"><li aid="3-3">考试成绩管理</li></a>
+                                <a href="" target="screen"><li aid="3-4">教学评估管理</li></a>
+                                {% endif %}
                             </ul>
                         </li>
                     </ul>
-                    <!--班级管理-->
+                    {% endif %}
+
+                    {% if role in ["admin","teacher"] %}
+                    <!--成绩管理-->
                     <ul>
                         <li aid="4">
-                            <span><i class="iconfont icon-banji"></i>&nbsp班级管理</span>
+                            <span><i class="iconfont icon-jiaoshi"></i>&nbsp成绩管理</span>
                             <ul style="display: none;">
-                                <a href="/classSet/classinfo41" target="screen"><li aid="41">查看班级信息</li></a>
-                                <a href="/classSet/test" target="screen"><li aid="42">随堂测试</li></a>
-                                <a href="/classSet/setClassinfo43" target="screen"><li aid="43">修改班级信息</li></a>
+                                <a href="" target="screen"><li aid="4-1">查看成绩</li></a>
+                                {% if role == "teacher" %}
+                                <a href="" target="screen"><li aid="4-2">上传成绩</li></a>
+                                {% endif %}
                             </ul>
                         </li>
                     </ul>
-                    <!--试卷管理-->
+                    {% endif %}
+
+                    {% if role in ["admin","student"] %}
+                    <!--教学评估-->
                     <ul>
                         <li aid="5">
-                            <span><i class="iconfont icon-shijuanindex"></i>&nbsp文件管理</span>
+                            <span><i class="iconfont icon-banji"></i>&nbsp教学评估</span>
                             <ul style="display: none;">
-                                <a href="javascript:;" target="screen"><li aid="51">可拓展功能项</li></a>
-                                <a href="javascript:;" target="screen"><li aid="52">可拓展功能项</li></a>
+                                {% if role == "student" %}
+                                <a href="" target="screen"><li aid="5-1">教学评估</li></a>
+                                {% endif %}
+                                {% if role == "admin" %}
+                                <a href="" target="screen"><li aid="5-2">开启/关闭教学评估</li></a>
+                                {% endif %}
                             </ul>
                         </li>
                     </ul>
+                    {% endif %}
+
+                    {% if role == "admin" %}
                     <!--系统设置-->
                     <ul>
                         <li aid="6">
                             <span><i class="iconfont icon-chilun"></i>&nbsp系统设置</span>
                             <ul style="display: none;">
-                                <a href="/systemSet/setNotice61" target="screen"><li aid="61">修改通知</li></a>
-                                <a href="" target="screen"><li aid="62">群发消息</li></a>
-                                <a href="/systemSet/tool63" target="screen"><li aid="63">管理员工具</li></a>
+                                <a href="/systemSet/setNotice" target="screen"><li aid="6-1">修改通知</li></a>
+                                <a href="/systemSet/tool" target="screen"><li aid="6-2">管理员工具</li></a>
                             </ul>
                         </li>
                     </ul>
+                    {% endif %}
+
                 </div>
             </div>
         </div>
@@ -98,7 +149,7 @@
             </div>
             <div class="skin" style="height: 20px;padding: 20px 30px;float: right;"></div>
             <div class="menus">
-                <span class="mymenu" id="menu1"><i class="iconfont icon-xiaoxi"></i>&nbsp我的消息</span>
+                <a href="/message" target="screen"><span class="mymenu" id="menu1"><i class="iconfont icon-xiaoxi"></i>&nbsp我的消息</span></a>
                 <span class="mymenu" id="menu2" style="position: relative">
                     <i class="iconfont icon-xiaoxi1"></i>&nbsp我的设置
                     <div class="mymenubar" id="mymenubar2">

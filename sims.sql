@@ -11,7 +11,7 @@
  Target Server Version : 50643
  File Encoding         : 65001
 
- Date: 13/05/2019 19:22:34
+ Date: 15/05/2019 18:14:50
 */
 
 SET NAMES utf8mb4;
@@ -45,7 +45,12 @@ CREATE TABLE `estimate`  (
   `state` tinyint(1) NOT NULL DEFAULT 0 COMMENT '状态',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of estimate
+-- ----------------------------
+INSERT INTO `estimate` VALUES (1, '0001', '非常好:100%;好:0%;中等:0%;差:0%;非常差:0%', 1, '2019-05-15 18:07:51');
 
 -- ----------------------------
 -- Table structure for majortable
@@ -74,12 +79,13 @@ CREATE TABLE `notice`  (
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   `create_ userid` char(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of notice
 -- ----------------------------
 INSERT INTO `notice` VALUES (1, '今天是五月十三日', '2019-05-13 17:31:59', 'admin');
+INSERT INTO `notice` VALUES (2, '今天是五月十四日', '2019-05-14 10:14:58', 'admin');
 
 -- ----------------------------
 -- Table structure for score
@@ -125,6 +131,7 @@ CREATE TABLE `teacher_info`  (
   `name` char(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '姓名',
   `sex` char(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别',
   `project` char(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '课程',
+  `cls_ids` varchar(510) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '任课班级',
   `state` tinyint(1) NOT NULL DEFAULT 1 COMMENT '状态',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   PRIMARY KEY (`tea_id`) USING BTREE
@@ -133,7 +140,7 @@ CREATE TABLE `teacher_info`  (
 -- ----------------------------
 -- Records of teacher_info
 -- ----------------------------
-INSERT INTO `teacher_info` VALUES ('0001', '杨过', '男', '运筹学', 1, '2019-05-13 17:48:11');
+INSERT INTO `teacher_info` VALUES ('0001', '杨过', '男', '运筹学', '计算1501,', 1, '2019-05-14 10:48:03');
 
 -- ----------------------------
 -- Table structure for timetable

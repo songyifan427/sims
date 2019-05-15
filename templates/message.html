@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <title>消息历史</title>
+</head>
+<style>
+    body{
+        width: 1200px;
+        height: 700px;
+        margin: auto;
+    }
+    .messageBox{
+        width: 598px;
+        height: 130px;
+        margin: 10px auto;
+        border: 1px solid #a3a3a3;
+        border-radius: 5px;
+    }
+    .content{
+        width: 558px;
+        height: 60px;
+        padding: 20px;
+        display:-webkit-box;
+        -webkit-box-orient:vertical;
+        -webkit-line-clamp:4;
+        line-height: 15px;
+        overflow:hidden;
+        font-size: 15px;
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+    .date{
+        width: 558px;
+        height: 18px;
+        padding: 0 20px 12px;
+        text-align: right;
+    }
+</style>
+<body>
+    {% if notices %}
+        {% for item in notices%}
+        <div class="messageBox">
+            <div class="content">{{ item.content }}</div>
+            <div class="date">{{ item.create_time }}</div>
+        </div>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

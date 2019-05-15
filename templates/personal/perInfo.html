@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/css/branch.css">
+    <title>查看个人信息</title>
+</head>
+<body>
+    <div class="con">
+        <table class="tab table table-bordered table-hover">
+            <tr><th colspan="5">{{ data.role }}个人信息</th></tr>
+            <tr>
+                {% if data.role == "教师" %}
+                <th style="width: 90px">工号</th>
+                <th style="width: 90px">姓名</th>
+                <th style="width: 90px">性别</th>
+                <th style="width: 90px">学科</th>
+                <th style="width: 200px">代课班级</th>
+                {% elif data.role == "学生" %}
+                <th style="width: 90px">学号</th>
+                <th style="width: 90px">姓名</th>
+                <th style="width: 90px">性别</th>
+                <th style="width: 90px">专业</th>
+                <th style="width: 90px">班级</th>
+                {% else %}
+                <th style="width: 190px">账号</th>
+                <th style="width: 190px">姓名</th>
+                {% endif %}
+            </tr>
+            <tbody><tr>
+                {% if data.role == "教师" %}
+                <th style="width: 90px">{{ data.tea_id }}</th>
+                <th style="width: 90px">{{ data.name }}</th>
+                <th style="width: 90px">{{ data.sex }}</th>
+                <th style="width: 90px">{{ data.project }}</th>
+                <th style="width: 200px">{{ data.cls_ids }}</th>
+                {% elif data.role == "学生" %}
+                <th style="width: 90px">{{ data.stu_id }}</th>
+                <th style="width: 90px">{{ data.name }}</th>
+                <th style="width: 90px">{{ data.sex }}</th>
+                <th style="width: 90px">{{ data.major_name }}</th>
+                <th style="width: 90px">{{ data.cls_id }}</th>
+                {% else %}
+                <th style="width: 190px">{{ data.userid }}</th>
+                <th style="width: 190px">{{ data.role }}</th>
+                {% endif %}
+            </tbody></tr>
+        </table>
+    </div>
+</body>
+</html>

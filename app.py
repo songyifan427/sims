@@ -1,20 +1,36 @@
 # encoding: utf-8
-from flask import Flask,render_template,request,redirect,make_response,session
+from flask import Flask,render_template,request,redirect,make_response,session,url_for
 import hashlib
 from code import code
 from config import secret_key,maxcontent,connect
 
 # 蓝图
+from blueprint.personal import personal
+# from blueprint.timeTable import timeTable
+# from blueprint.infoSet import infoSet
+# from blueprint.score import score
+# from blueprint.estimate import estimate
 # from blueprint.systemSet import systemSet
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder="templates",static_folder = "static")
 app.secret_key=secret_key
 app.config['MAX_CONTENT_LENGTH'] = maxcontent
 
+app.register_blueprint(personal,url_prefix="/personal")
+# app.register_blueprint(timeTable,url_prefix="/timeTable")
+# app.register_blueprint(infoSet,url_prefix="/infoSet")
+# app.register_blueprint(score,url_prefix="/score")
+# app.register_blueprint(estimate,url_prefix="/estimate")
+# app.register_blueprint(systemSet,url_prefix="/systemSet")
+
 # 错误
-@app.errorhandler(404)
-def error(error):
-    return render_template('404.html')
+# @app.route('/404')
+# def e404():
+#     return render_template('404.html')
+# @app.errorhandler(404)
+# def error(error):
+#     # return redirect(url_for('.e404'))
+#     return render_template('404.html')
 # 操作成功和失败
 @app.route('/success')
 def success():
@@ -29,7 +45,7 @@ def index():
     if(session.get("login")=="yes"):
         db = connect()
         cur = db.cursor()
-        cur.execute('select * from notice order by id desc limit 1')
+        cur.execute('select content,create_time from notice order by id desc limit 1')
         result = cur.fetchone()
         if (result):
             notice = result["content"]
@@ -40,7 +56,7 @@ def index():
         db.commit()
         db.close()
         cur.close()
-        res=make_response(render_template('index.html',data={'name':session.get('name'),'notice':notice,'day':day}))
+        res=make_response(render_template('index.html',data={'name':session.get('name'),'notice':notice,'day':day},role=session.get('role')))
         return res
     else:
         return  redirect('/login')
@@ -65,12 +81,12 @@ def checklogin():
         md5=hashlib.md5()
         md5.update(password.encode("utf8"))
         upass=md5.hexdigest()
-        cur.execute('select * from user_info where userid=%s and password=%s',(userid,upass))
+        cur.execute('select role from user_info where userid=%s and password=%s',(userid,upass))
         result=cur.fetchone()
         if(result):
             res = make_response(redirect('/'))
             session["login"]="yes"
-            session["userid"]=result["userid"]
+            session["userid"]=userid
             session["role"]=result["role"]
             if result["role"]=="student":
                 cur.execute('select name from student_info where stu_id=%s', (userid))
@@ -90,6 +106,16 @@ def checklogin():
             return render_template('login.html',tips="用户名或密码不正确")
     else:
         return render_template('login.html',tips="验证码不正确")
+# 消息历史
+@app.route('/message')
+def message():
+    db = connect()
+    cur = db.cursor()
+    cur.execute("select content,create_time from notice order by id desc")
+    result = cur.fetchall()
+    for item in result:
+        item["create_time"] = item["create_time"].strftime('%Y-%m-%d')
+    return render_template('message.html', notices=result)
 # 退出登录
 @app.route('/logout')
 def logout():
@@ -112,7 +138,7 @@ def setPassword():
     userid=session.get('userid')
     db = connect()
     cur = db.cursor()
-    cur.execute('select * from user_info where userid=%s and password=%s', (userid, password))
+    cur.execute('select userid from user_info where userid=%s and password=%s', (userid, password))
     result = cur.fetchone()
     if(result):
         newpassword1 = request.form["inputPassword1"]
