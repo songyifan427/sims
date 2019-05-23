@@ -8,13 +8,14 @@
     <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../static/css/branch.css">
     <script src="../../static/js/branch.js"></script>
-    <title>查看个人信息</title>
+    <title>查看个人成绩</title>
 </head>
 <body>
     <div class="con">
-        <select id="type">
-            <option value="userid">科目</option>
-            <option value="userid">范围</option>
+        <select id="type" onchange="query(this.value)">
+            <option value="project">科目</option>
+            <option value="pass">及格科目</option>
+            <option value="fail">不及格科目</option>
         </select>
         <div class="input-append">
             <input class="span2" id="inputer" type="text">
@@ -51,5 +52,8 @@
 </body>
 <script>
     search("#btn","#type","#inputer","/personal/perEstimate");
+    function query(value) {
+        console.log(value)
+    }
 </script>
 </html>

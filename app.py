@@ -6,31 +6,31 @@ from config import secret_key,maxcontent,connect
 
 # 蓝图
 from blueprint.personal import personal
-# from blueprint.timeTable import timeTable
+from blueprint.timeTable import timeTable
 # from blueprint.infoSet import infoSet
 # from blueprint.score import score
 # from blueprint.estimate import estimate
-# from blueprint.systemSet import systemSet
+from blueprint.systemSet import systemSet
 
 app = Flask(__name__,template_folder="templates",static_folder = "static")
 app.secret_key=secret_key
 app.config['MAX_CONTENT_LENGTH'] = maxcontent
 
 app.register_blueprint(personal,url_prefix="/personal")
-# app.register_blueprint(timeTable,url_prefix="/timeTable")
+app.register_blueprint(timeTable,url_prefix="/timeTable")
 # app.register_blueprint(infoSet,url_prefix="/infoSet")
 # app.register_blueprint(score,url_prefix="/score")
 # app.register_blueprint(estimate,url_prefix="/estimate")
-# app.register_blueprint(systemSet,url_prefix="/systemSet")
+app.register_blueprint(systemSet,url_prefix="/systemSet")
 
 # 错误
-# @app.route('/404')
-# def e404():
-#     return render_template('404.html')
-# @app.errorhandler(404)
-# def error(error):
-#     # return redirect(url_for('.e404'))
-#     return render_template('404.html')
+@app.route('/404')
+def e404():
+    return render_template('404.html')
+@app.errorhandler(404)
+def error(error):
+    # return redirect(url_for('.e404'))
+    return render_template('404.html')
 # 操作成功和失败
 @app.route('/success')
 def success():
@@ -81,21 +81,14 @@ def checklogin():
         md5=hashlib.md5()
         md5.update(password.encode("utf8"))
         upass=md5.hexdigest()
-        cur.execute('select role from user_info where userid=%s and password=%s',(userid,upass))
+        cur.execute('select name,role from user_info where userid=%s and password=%s',(userid,upass))
         result=cur.fetchone()
         if(result):
             res = make_response(redirect('/'))
-            session["login"]="yes"
-            session["userid"]=userid
-            session["role"]=result["role"]
-            if result["role"]=="student":
-                cur.execute('select name from student_info where stu_id=%s', (userid))
-                session["name"] = cur.fetchone()["name"]
-            elif result["role"]=="teacher":
-                cur.execute('select name from teacher_info where tea_id=%s', (userid))
-                session["name"] = cur.fetchone()["name"]
-            else:
-                session["name"]="管理员"
+            session["login"] = "yes"
+            session["userid"] = userid
+            session["role"] = result["role"]
+            session["name"] = result["name"]
             db.close()
             cur.close()
             session.pop("code")
@@ -162,5 +155,6 @@ def setPassword():
         return render_template('fail.html')
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",port=5000)
+    # app.run(host="0.0.0.0",port=5000)
+    app.run()
 

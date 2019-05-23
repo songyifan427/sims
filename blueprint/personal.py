@@ -1,5 +1,5 @@
 # encoding: utf-8
-from flask import Blueprint,render_template,request,redirect,make_response,session,Flask
+from flask import Blueprint,render_template,request,session
 from config import connect
 from pag import pages
 
@@ -12,14 +12,14 @@ def info():
     db = connect()
     cur = db.cursor()
     if role == "teacher":
-        cur.execute('select tea_id,name,sex,project,cls_ids from teacher_info where tea_id=%s', (session.get("userid")))
+        cur.execute('select tea_id,name,sex,subject,cls_ids from teacher_info where tea_id=%s', (session.get("userid")))
         result = cur.fetchone()
         result["cls_ids"] = result["cls_ids"][:-1] if result["cls_ids"] else ""
         result["role"] = "教师"
     elif role == "student":
         cur.execute('select stu_id,name,sex,cls_id,major_id from student_info where stu_id=%s',(session.get("userid")))
         result = cur.fetchone()
-        cur.execute('select major_name from majortable where id=%s', (result["major_id"]))
+        cur.execute('select major_name from majortable where major_id=%s', (result["major_id"]))
         result["major_name"] = cur.fetchone()["major_name"]
         result["role"] = "学生"
     else:
@@ -30,7 +30,11 @@ def info():
 # 查看学生成绩
 @personal.route('/score')
 def score():
-    pass
+    type = request.args.get("type") or "1"
+    content = request.args.get("content") or "1"
+    type = "1" if content == "1" else type
+    db = connect()
+    cur = db.cursor()
 # 查看教学评估
 @personal.route('/estimate')
 def estimate():

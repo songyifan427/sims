@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/css/branch.css">
+    <title>修改通知</title>
+</head>
+<style>
+    #textInputer{
+        width: 100%;
+        min-width: 600px;
+        max-width: 1000px;
+        height: 400px;
+        min-height: 300px;
+        max-height: 550px;
+        position: relative;
+    }
+    .but{
+        margin: 0 15px;
+    }
+</style>
+<body>
+    <div class="con">
+        <textarea id="textInputer" onkeyup="checkLength(this,200)"  maxlength="200" data-options="required:true"></textarea>
+        <div style="text-align: center;">还可以输入<span id="warning">200</span>字</div>
+        <div style="text-align: center;padding-top: 20px;">
+            <button id="confirm" class="but btn btn-success">发布</button>
+            <a class="but btn btn-warning" href="javascript:clear();">清空</a>
+            <a class="but btn btn-danger" href="about:blank">退出</a>
+        </div>
+    </div>
+</body>
+<script>
+    // 清空
+    function clear() {
+        document.querySelector("#textInputer").value=""
+    }
+    document.querySelector("#confirm").onclick=function () {
+        var ajax=new XMLHttpRequest();
+        ajax.onload=(ev)=> {
+            if (ajax.response == "success") {
+                let myDate = new Date();
+                let month = myDate.getMonth()+1;
+                let date = myDate.getFullYear()+"年"+month+"月"+myDate.getDate()+"日";
+                let str="("+date+")"+document.querySelector("#textInputer").value;
+                window.parent.document.querySelector("#mynotice").innerHTML=str;
+                window.location.href = '/success';
+            }else{
+                window.location.href = '/fail';
+            }
+        };
+        ajax.open("get", "/systemSet/setNotice?content="+document.querySelector("#textInputer").value);
+	    ajax.send()
+    };
+    //监控字数警告
+    let warning = document.querySelector("#warning");
+    function checkLength(obj,maxChars){
+        let content = document.querySelector("#textInputer").value;
+        warning.innerText=maxChars-content.length;
+    }
+</script>
+</html>

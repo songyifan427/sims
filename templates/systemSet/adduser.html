@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/css/branch.css">
+    <script src="../../static/js/branch.js"></script>
+    <title>添加用户</title>
+</head>
+<body>
+    <div class="con">
+        <form class="form-horizontal" action="/systemSet/adduser" method="post">
+
+            <div class="control-group">
+                <label class="control-label" for="userid" id="luserid">账号(*)</label>
+                <div class="controls">
+                    <input type="text" id="userid" name="userid" placeholder="账号">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="password" id="lpassword">密码(*)</label>
+                <div class="controls">
+                    <input type="text" id="password" name="password" placeholder="密码">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="name" id="lname">姓名(*)</label>
+                <div class="controls">
+                    <input type="text" id="name" name="name" placeholder="姓名">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="role">身份</label>
+                <div class="controls">
+                    <select id="role" name="role" onchange="rolechange()">
+                        <option value="student">学生</option>
+                        <option value="teacher">教师</option>
+                        <option value="admin">管理员(请慎重选择)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="sex">性别</label>
+                <div class="controls">
+                    <select id="sex" name="sex">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="cls">班级</label>
+                <div class="controls">
+                    <input type="text" id="cls" name="cls" placeholder="如:0000">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="major_id">专业</label>
+                <div class="controls">
+                    <select id="major_id" name="major_id">
+                        <option value=""></option>
+                        {% for item in data %}
+                        <option value={{ item["major_id"] }}>{{ item["major_name"] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="subject">课程</label>
+                <div class="controls">
+                    <input type="text" id="subject" name="subject" placeholder="如:数学分析">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" id="confirm" class="btn btn-success" disabled="disabled">确认添加</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</body>
+<script>
+    let userid = document.querySelector("#userid");
+    let luserid = document.querySelector("#luserid");
+    let password = document.querySelector("#password");
+    let lpassword = document.querySelector("#lpassword");
+    let name = document.querySelector("#name");
+    let lname = document.querySelector("#lname");
+    let confirm = document.querySelector("#confirm");
+    //正则输入账号密码姓名
+    userid.onblur=function () {
+        if(isAlpNumNotEmpty(userid.value)){
+            luserid.style.color="rgb(51,51,51)";
+            luserid.innerText="账号(*)"
+        }else{
+            luserid.style.color="red";
+            luserid.innerText="账号(1-20位由数字字母下划线组成)"
+        }
+    };
+    password.onblur=function () {
+        if(isAlpNumNotEmpty(password.value)){
+            lpassword.style.color="rgb(51,51,51)";
+            lpassword.innerText="密码(*)"
+        }else{
+            lpassword.style.color="red";
+            lpassword.innerText="密码(1-20位由数字字母下划线组成)"
+        }
+    };
+    name.onblur=function () {
+        if(isHanAlpNotEmpty(name.value)){
+            lname.style.color="rgb(51,51,51)";
+            lname.innerText="姓名(*)"
+        }else{
+            lname.style.color="red";
+            lname.innerText="姓名(1-20位由汉字字母组成)"
+        }
+    };
+    document.querySelector(".con").onkeyup=function () {
+        if (isAlpNumNotEmpty(userid.value)&&isAlpNumNotEmpty(password.value)&&isHanAlpNotEmpty(name.value)){
+            confirm.removeAttribute("disabled")
+        }else{
+            confirm.setAttribute("disabled","disabled")
+        }
+    };
+    //选择角色模式
+    function rolechange(){
+        let role = document.querySelector("#role");
+        let subject = document.querySelector("#subject");
+        let clas = document.querySelector("#class");
+        let major_id = document.querySelector("#major_id");
+        if(role.value=="student"){
+            subject.value="";
+            subject.setAttribute("disabled","disabled");
+            clas.removeAttribute("disabled");
+            major_id.removeAttribute("disabled");
+        }else if(role.value=="teacher"){
+            clas.value="";
+            clas.setAttribute("disabled","disabled");
+            major_id.value="";
+            major_id.setAttribute("disabled","disabled");
+            subject.removeAttribute("disabled");
+        }else if(role.value=="admin"){
+            subject.value="";
+            subject.setAttribute("disabled","disabled");
+            clas.value="";
+            clas.setAttribute("disabled","disabled");
+            major_id.value="";
+            major_id.setAttribute("disabled","disabled");
+        }
+    }
+    rolechange()
+</script>
+</html>
