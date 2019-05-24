@@ -32,8 +32,8 @@
                 <td style="width: 40px">{{ item.major_id }}</td>
                 <td style="width: 90px">{{ item.major_name }}</td>
                 <td style="text-align: center">
-                    <button class="but updcon btn btn-warning" attrid="{{ item.userid }}">修改名称</button>
-                    <button class="but delcon btn btn-danger" attrid="{{ item.userid }}">移除专业</button>
+                    <a class="but delcon btn btn-danger" href="/systemSet/delMajor/{{ item.major_id }}">移除专业</a>
+                    <button class="but updcon btn btn-warning" attrid="{{ item.major_id }}">修改名称</button>
                 </td>
             </tr>
             {% endfor %}
@@ -54,3 +54,29 @@
         </div>
     </div>
 </body>
+<script>
+    let updcon = document.querySelectorAll(".updcon");
+    updcon.forEach(function startupd(ele){
+        ele.onclick=()=>{
+           ele.style.display="none"; 
+           let major_id = ele.getAttribute("attrid");
+           let alink = document.createElement("a");
+           alink.classList.add("but");
+           alink.classList.add("btn");
+           alink.classList.add("btn-success");
+           alink.innerText="确认修改";
+           ele.parentNode.appendChild(alink);
+           let inputnode = ele.parentNode.parentNode.children[1];
+           let major_name = inputnode.innerText;
+           inputnode.innerText="";
+           let inputer=document.createElement("input");
+           inputer.setAttribute("autofocus","autofocus");
+           inputer.value=major_name;
+           inputnode.appendChild(inputer);
+           alink.onclick = function () {
+               let value = inputer.value;
+               alink.href="/systemSet/updMajor/"+major_id+"?major_name="+value;
+           } 
+        }
+    });
+</script>

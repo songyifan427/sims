@@ -1,36 +1,36 @@
 # encoding: utf-8
-from flask import Flask,render_template,request,redirect,make_response,session,url_for
+from flask import Flask,render_template,request,redirect,make_response,session
 import hashlib
 from code import code
-from config import secret_key,maxcontent,connect
+from config import secret_key,maxcontent,connect,UPLOAD_FOLDER
 
 # 蓝图
 from blueprint.personal import personal
 from blueprint.timeTable import timeTable
 # from blueprint.infoSet import infoSet
 # from blueprint.score import score
-# from blueprint.estimate import estimate
+from blueprint.estimate import estimate
 from blueprint.systemSet import systemSet
 
 app = Flask(__name__,template_folder="templates",static_folder = "static")
 app.secret_key=secret_key
 app.config['MAX_CONTENT_LENGTH'] = maxcontent
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 app.register_blueprint(personal,url_prefix="/personal")
 app.register_blueprint(timeTable,url_prefix="/timeTable")
 # app.register_blueprint(infoSet,url_prefix="/infoSet")
 # app.register_blueprint(score,url_prefix="/score")
-# app.register_blueprint(estimate,url_prefix="/estimate")
+app.register_blueprint(estimate,url_prefix="/estimate")
 app.register_blueprint(systemSet,url_prefix="/systemSet")
 
 # 错误
-@app.route('/404')
-def e404():
-    return render_template('404.html')
 @app.errorhandler(404)
-def error(error):
-    # return redirect(url_for('.e404'))
+def error404(error):
     return render_template('404.html')
+@app.errorhandler(500)
+def error500(error):
+    return render_template('fail.html')
 # 操作成功和失败
 @app.route('/success')
 def success():

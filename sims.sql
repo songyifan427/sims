@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : local_MySQL5.6
+ Source Server         : mysql
  Source Server Type    : MySQL
- Source Server Version : 50643
+ Source Server Version : 80012
  Source Host           : localhost:3306
  Source Schema         : sims
 
  Target Server Type    : MySQL
- Target Server Version : 50643
+ Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 15/05/2019 18:14:50
+ Date: 24/05/2019 21:03:08
 */
 
 SET NAMES utf8mb4;
@@ -45,7 +45,7 @@ CREATE TABLE `estimate`  (
   `state` tinyint(1) NOT NULL DEFAULT 0 COMMENT '状态',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of estimate
@@ -57,17 +57,22 @@ INSERT INTO `estimate` VALUES (1, '0001', '非常好:100%;好:0%;中等:0%;差:0
 -- ----------------------------
 DROP TABLE IF EXISTS `majortable`;
 CREATE TABLE `majortable`  (
-  `id` int(9) NOT NULL AUTO_INCREMENT COMMENT '唯一id',
+  `major_id` int(9) NOT NULL AUTO_INCREMENT COMMENT '唯一id',
   `major_name` char(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '专业名',
   `state` tinyint(1) NOT NULL DEFAULT 1 COMMENT '状态',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+  PRIMARY KEY (`major_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of majortable
 -- ----------------------------
 INSERT INTO `majortable` VALUES (1, '信息与计算科学', 1, '2019-05-13 19:02:55');
+INSERT INTO `majortable` VALUES (2, '应用化学', 1, '2019-05-24 21:02:57');
+INSERT INTO `majortable` VALUES (3, '物理学', 1, '2019-05-24 09:08:31');
+INSERT INTO `majortable` VALUES (4, '英语', 1, '2019-05-24 09:08:32');
+INSERT INTO `majortable` VALUES (5, '汉语言文学', 1, '2019-05-24 09:36:19');
+INSERT INTO `majortable` VALUES (6, '软件工程', 0, '2019-05-24 09:09:07');
 
 -- ----------------------------
 -- Table structure for notice
@@ -77,15 +82,17 @@ CREATE TABLE `notice`  (
   `id` int(9) NOT NULL AUTO_INCREMENT COMMENT '唯一id',
   `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '内容',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `create_ userid` char(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
+  `create_userid` char(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of notice
 -- ----------------------------
 INSERT INTO `notice` VALUES (1, '今天是五月十三日', '2019-05-13 17:31:59', 'admin');
 INSERT INTO `notice` VALUES (2, '今天是五月十四日', '2019-05-14 10:14:58', 'admin');
+INSERT INTO `notice` VALUES (3, '今天是五月二十二日', '2019-05-22 14:54:13', 'admin');
+INSERT INTO `notice` VALUES (4, '今天是五月二十四日', '2019-05-24 19:04:33', 'admin');
 
 -- ----------------------------
 -- Table structure for score
@@ -99,7 +106,7 @@ CREATE TABLE `score`  (
   `state` tinyint(1) NOT NULL DEFAULT 1 COMMENT '状态',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for student_info
@@ -130,7 +137,7 @@ CREATE TABLE `teacher_info`  (
   `tea_id` char(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工号',
   `name` char(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '姓名',
   `sex` char(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别',
-  `project` char(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '课程',
+  `subject` char(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '课程',
   `cls_ids` varchar(510) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '任课班级',
   `state` tinyint(1) NOT NULL DEFAULT 1 COMMENT '状态',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
@@ -153,7 +160,7 @@ CREATE TABLE `timetable`  (
   `state` tinyint(1) NOT NULL DEFAULT 1 COMMENT '状态',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for user_info
@@ -162,6 +169,7 @@ DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE `user_info`  (
   `userid` char(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '账号(学号/工号)',
   `password` char(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
+  `name` char(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '姓名',
   `role` char(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色',
   `state` tinyint(1) NOT NULL DEFAULT 1 COMMENT '状态',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间'
@@ -170,8 +178,8 @@ CREATE TABLE `user_info`  (
 -- ----------------------------
 -- Records of user_info
 -- ----------------------------
-INSERT INTO `user_info` VALUES ('admin', 'e10adc3949ba59abbe56e057f20f883e', 'admin', 1, '2019-05-13 17:31:19');
-INSERT INTO `user_info` VALUES ('0001', 'e10adc3949ba59abbe56e057f20f883e', 'teacher', 1, '2019-05-13 17:49:44');
-INSERT INTO `user_info` VALUES ('15010101', 'e10adc3949ba59abbe56e057f20f883e', 'student', 1, '2019-05-13 17:59:31');
+INSERT INTO `user_info` VALUES ('admin', 'e10adc3949ba59abbe56e057f20f883e', '管理员', 'admin', 1, '2019-05-23 16:18:19');
+INSERT INTO `user_info` VALUES ('0001', 'e10adc3949ba59abbe56e057f20f883e', '杨过', 'teacher', 1, '2019-05-23 16:18:29');
+INSERT INTO `user_info` VALUES ('15010101', 'e10adc3949ba59abbe56e057f20f883e', '张三', 'student', 1, '2019-05-23 18:37:10');
 
 SET FOREIGN_KEY_CHECKS = 1;

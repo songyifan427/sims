@@ -6,6 +6,8 @@ ttfurl = '.\static\Arvo-Regular.ttf'
 secret_key = '123456'
 #最大上传文件大小
 maxcontent = 16 * 1024 * 1024
+#文件上传路径
+UPLOAD_FOLDER = '../file'
 #mysql_host
 mysqlhost = "localhost"
 #mysql_port
